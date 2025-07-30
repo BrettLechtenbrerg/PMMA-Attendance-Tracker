@@ -1,5 +1,4 @@
 {
-  "project": "pmma-attendance-tracker",
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
