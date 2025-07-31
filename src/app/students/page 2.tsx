@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import AuthGuard from '@/components/auth/AuthGuard'
 import Header from '@/components/layout/Header'
@@ -14,7 +14,11 @@ export default function StudentsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
 
-  const loadStudents = useCallback(async () => {
+  useEffect(() => {
+    loadStudents()
+  }, [])
+
+  async function loadStudents() {
     try {
       let query = supabase
         .from('students')
@@ -34,11 +38,7 @@ export default function StudentsPage() {
     } finally {
       setLoading(false)
     }
-  }, [statusFilter])
-
-  useEffect(() => {
-    loadStudents()
-  }, [loadStudents])
+  }
 
   const filteredStudents = students.filter(student => {
     const searchLower = searchTerm.toLowerCase()

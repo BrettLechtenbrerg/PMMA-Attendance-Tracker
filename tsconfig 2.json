@@ -19,9 +19,17 @@
     ],
     "baseUrl": ".",
     "paths": {
+<<<<<<< HEAD
       "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "playwright.config.ts", "e2e/**/*", "__tests__/**/*", "test-setup.ts"]
+  "exclude": ["node_modules"]
+=======
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "supabase/functions", "test-setup.ts", "__tests__", "e2e"]
+>>>>>>> 3ce416773f59c772f8bf649a8433106ff38cacf0
 }
