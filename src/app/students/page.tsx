@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 import AuthGuard from '@/components/auth/AuthGuard'
 import Header from '@/components/layout/Header'
