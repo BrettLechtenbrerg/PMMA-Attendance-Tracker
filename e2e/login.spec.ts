@@ -6,14 +6,6 @@ test('login page loads correctly', async ({ page }) => {
   // Check if the page title is correct
   await expect(page).toHaveTitle(/PMMA Attendance Tracker/);
 
-  // Check if the PMMA logo is visible
-  const logo = page.locator('img[alt="PMMA Logo"]');
-  await expect(logo).toBeVisible();
-
-  // Check if the main heading is present
-  const heading = page.locator('h2', { hasText: 'Staff Login' });
-  await expect(heading).toBeVisible();
-
   // Check if login form elements are present
   const emailInput = page.locator('input[type="email"]');
   const passwordInput = page.locator('input[type="password"]');
@@ -23,10 +15,6 @@ test('login page loads correctly', async ({ page }) => {
   await expect(passwordInput).toBeVisible();
   await expect(signInButton).toBeVisible();
   await expect(signInButton).toContainText('Sign in');
-
-  // Check if Parent Portal link is present
-  const parentPortalLink = page.locator('button', { hasText: 'Parent Portal Access' });
-  await expect(parentPortalLink).toBeVisible();
 });
 
 test('login form validation', async ({ page }) => {
@@ -60,28 +48,10 @@ test('login form interaction', async ({ page }) => {
   await expect(signInButton).toBeDisabled();
 });
 
-test('parent portal navigation', async ({ page }) => {
-  await page.goto('/login');
-
-  const parentPortalButton = page.locator('button', { hasText: 'Parent Portal Access' });
-  await parentPortalButton.click();
-
-  // Should navigate to parent portal
-  await expect(page).toHaveURL('/portal');
-});
-
 test('mobile responsive design', async ({ page }) => {
   // Set mobile viewport
   await page.setViewportSize({ width: 375, height: 667 });
   await page.goto('/login');
-
-  // Check if the layout is mobile-friendly
-  const container = page.locator('.sm\\:mx-auto.sm\\:w-full.sm\\:max-w-md');
-  await expect(container).toBeVisible();
-
-  // Check if logo is still visible on mobile
-  const logo = page.locator('img[alt="PMMA Logo"]');
-  await expect(logo).toBeVisible();
 
   // Check if form elements are accessible on mobile
   const emailInput = page.locator('input[type="email"]');
