@@ -23,5 +23,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "playwright.config.ts", "e2e/**/*", "__tests__/**/*", "test-setup.ts", "supabase/**/*"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "playwright.config.ts", "vitest.config.ts", "e2e/**/*", "__tests__/**/*", "test-setup.ts", "supabase/**/*"]
 }
