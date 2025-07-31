@@ -9,10 +9,24 @@ export default defineConfig({
     setupFiles: ['./test-setup.ts'],
     globals: true,
     exclude: ['**/e2e/**', '**/node_modules/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'test-setup.ts',
+        '**/*.d.ts',
+        '**/*.config.ts',
+        '**/*.config.js',
+        'coverage/**',
+        '.next/**',
+        'supabase/**'
+      ]
+    }
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
