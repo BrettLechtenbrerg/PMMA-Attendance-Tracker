@@ -74,7 +74,7 @@ export default function DashboardPage() {
                 Welcome back, {user?.first_name}!
               </h1>
               <p className="mt-2 text-gray-600">
-                Here's what's happening at the dojo today.
+                Here&apos;s what&apos;s happening at the dojo today.
               </p>
             </div>
 
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                       <div className="ml-5 w-0 flex-1">
                         <dl>
                           <dt className="text-sm font-medium text-gray-500 truncate">
-                            Today's Attendance
+                            Today&apos;s Attendance
                           </dt>
                           <dd className="text-lg font-medium text-primary">
                             {stats.todayAttendance}
@@ -167,7 +167,7 @@ export default function DashboardPage() {
                       <div className="ml-5 w-0 flex-1">
                         <dl>
                           <dt className="text-sm font-medium text-gray-500 truncate">
-                            This Week's Classes
+                            This Week&apos;s Classes
                           </dt>
                           <dd className="text-lg font-medium text-primary">
                             {stats.thisWeekClasses}

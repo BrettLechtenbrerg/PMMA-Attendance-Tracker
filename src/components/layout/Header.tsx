@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { LogOut, Menu, X } from 'lucide-react'
 import { signOut, getCurrentUser } from '@/lib/auth'
@@ -46,9 +47,11 @@ export default function Header() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center">
-              <img
+              <Image
                 src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/Uj6CJxWXVU8HyNgI39xb/media/88575c62-51f8-4837-875d-808d452bbc6b.png"
                 alt="PMMA"
+                width={32}
+                height={32}
                 className="h-8 w-auto"
               />
               <span className="ml-2 text-secondary font-bold text-lg">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { signIn } from '@/lib/auth'
 
 export default function LoginPage() {
@@ -30,9 +31,11 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <img
+          <Image
             src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/Uj6CJxWXVU8HyNgI39xb/media/88575c62-51f8-4837-875d-808d452bbc6b.png"
             alt="PMMA Logo"
+            width={64}
+            height={64}
             className="mx-auto h-16 w-auto"
           />
           <h2 className="mt-6 text-3xl font-bold text-primary">

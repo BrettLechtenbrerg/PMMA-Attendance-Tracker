@@ -16,7 +16,7 @@ export default function StudentsPage() {
 
   useEffect(() => {
     loadStudents()
-  }, [])
+  }, [statusFilter])
 
   async function loadStudents() {
     try {
