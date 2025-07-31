@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import OfflineStatus from '@/components/OfflineStatus'
@@ -7,12 +7,15 @@ export const metadata: Metadata = {
   title: 'PMMA Attendance Tracker',
   description: 'Professional martial arts attendance tracking system',
   manifest: '/manifest.json',
-  themeColor: '#000000',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'PMMA Tracker',
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#000000',
 }
 
 export default function RootLayout({

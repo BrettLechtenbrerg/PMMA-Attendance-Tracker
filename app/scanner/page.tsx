@@ -9,6 +9,9 @@ import { QRScanner } from '@/lib/qr-scanner'
 import { attendanceService } from '@/lib/attendance'
 import { Class } from '@/lib/types'
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic'
+
 export default function ScannerPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const scannerRef = useRef<QRScanner | null>(null)
