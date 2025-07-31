@@ -9,6 +9,9 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { Student, Attendance } from '@/lib/types'
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic'
+
 interface ParentPortalData {
   students: Array<{
     student: Student

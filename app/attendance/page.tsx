@@ -8,6 +8,9 @@ import Select from '@/components/ui/Select'
 import { attendanceService } from '@/lib/attendance'
 import { Class, Attendance } from '@/lib/types'
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic'
+
 export default function AttendancePage() {
   const [classes, setClasses] = useState<Class[]>([])
   const [selectedClassId, setSelectedClassId] = useState('')

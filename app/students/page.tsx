@@ -9,6 +9,9 @@ import Input from '@/components/ui/Input'
 import { studentService } from '@/lib/students'
 import { Student } from '@/lib/types'
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic'
+
 export default function StudentsPage() {
   const [students, setStudents] = useState<Student[]>([])
   const [loading, setLoading] = useState(true)

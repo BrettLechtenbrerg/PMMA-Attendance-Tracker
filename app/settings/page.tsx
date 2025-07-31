@@ -8,6 +8,9 @@ import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import { notificationService, NotificationTemplate } from '@/lib/notifications'
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic'
+
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
