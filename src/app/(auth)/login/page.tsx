@@ -26,6 +26,11 @@ function LoginForm() {
     if (searchParams.get('setup') === 'complete') {
       setSuccessMessage('Admin account created successfully! You can now sign in.')
     }
+    
+    // Check for signup completion message
+    if (searchParams.get('signup') === 'complete') {
+      setSuccessMessage('Account created successfully! You can now sign in.')
+    }
   }, [searchParams, router])
 
   async function checkSetupStatus() {
@@ -144,6 +149,15 @@ function LoginForm() {
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
+          </div>
+
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              Don&apos;t have an account?{' '}
+              <a href="/signup" className="font-medium text-primary hover:text-gray-800">
+                Sign up here
+              </a>
+            </p>
           </div>
         </form>
       </div>

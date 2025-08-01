@@ -1,48 +1,26 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { createUser } from '@/lib/auth'
-import { supabase } from '@/lib/supabase'
 import { User, Mail, Lock, Shield } from 'lucide-react'
+import type { UserRole } from '@/types'
 
-export default function SetupPage() {
+function SignUpForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    role: 'instructor' as UserRole
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [checkingSetup, setCheckingSetup] = useState(true)
   const router = useRouter()
-
-  useEffect(() => {
-    checkIfSetupNeeded()
-  }, [router])
-
-  async function checkIfSetupNeeded() {
-    try {
-      const { data, error } = await supabase
-        .from('users')
-        .select('id')
-        .limit(1)
-
-      if (error) throw error
-
-      if (data && data.length > 0) {
-        router.push('/login')
-        return
-      }
-    } catch (error) {
-      console.error('Error checking setup:', error)
-    } finally {
-      setCheckingSetup(false)
-    }
-  }
+  const searchParams = useSearchParams()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -71,36 +49,25 @@ export default function SetupPage() {
       await createUser(formData.email, formData.password, {
         first_name: formData.firstName,
         last_name: formData.lastName,
-        role: 'owner'
+        role: formData.role
       })
       
-      router.push('/login?setup=complete')
+      router.push('/login?signup=complete')
     } catch (error: any) {
-      console.error('Setup error:', error)
-      const errorMessage = error.message || error.error_description || 'Failed to create admin account'
-      setError(`Setup failed: ${errorMessage}`)
+      console.error('Signup error:', error)
+      const errorMessage = error.message || error.error_description || 'Failed to create account'
+      setError(`Signup failed: ${errorMessage}`)
     } finally {
       setLoading(false)
     }
   }
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value
     }))
-  }
-
-  if (checkingSetup) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">Checking setup status...</p>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -115,24 +82,11 @@ export default function SetupPage() {
             className="mx-auto h-16 w-auto"
           />
           <h2 className="mt-6 text-3xl font-bold text-primary">
-            PMMA Attendance Tracker
+            Join PMMA Attendance Tracker
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            First-time setup - Create your admin account
+            Create your account to get started
           </p>
-          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4">
-            <div className="flex">
-              <Shield className="h-5 w-5 text-blue-400 mt-0.5" />
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-blue-800">
-                  Setup Required
-                </h3>
-                <p className="mt-1 text-sm text-blue-700">
-                  No admin accounts exist. Create the first owner account to get started.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -202,9 +156,33 @@ export default function SetupPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="pl-10 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="admin@pmma.com"
+                placeholder="john@example.com"
               />
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              Role
+            </label>
+            <div className="mt-1 relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Shield className="h-5 w-5 text-gray-400" />
+              </div>
+              <select
+                name="role"
+                id="role"
+                value={formData.role}
+                onChange={handleInputChange}
+                className="pl-10 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+              >
+                <option value="instructor">Instructor</option>
+                <option value="parent">Parent</option>
+              </select>
+            </div>
+            <p className="mt-2 text-sm text-gray-500">
+              Select your role. Instructors can manage students and classes. Parents can view their children&apos;s progress.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -252,37 +230,41 @@ export default function SetupPage() {
             </div>
           </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-            <div className="flex">
-              <Shield className="h-5 w-5 text-yellow-400 mt-0.5" />
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">
-                  Owner Account
-                </h3>
-                <p className="mt-1 text-sm text-yellow-700">
-                  This account will be created with full owner privileges and can manage all users and settings.
-                </p>
-              </div>
-            </div>
-          </div>
-
           <div>
             <button
               type="submit"
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
             >
-              {loading ? 'Creating Admin Account...' : 'Create Admin Account'}
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
           </div>
 
           <div className="text-center">
-            <p className="text-xs text-gray-500">
-              This page will only appear when no admin accounts exist.
+            <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link href="/login" className="font-medium text-primary hover:text-gray-800">
+                Sign in here
+              </Link>
             </p>
           </div>
         </form>
       </div>
     </div>
+  )
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SignUpForm />
+    </Suspense>
   )
 }
