@@ -1,0 +1,15 @@
+# Vercel build ignore patterns
+.env.local
+.env.*.local
+node_modules
+.git
+*.log
+coverage
+playwright-report
+test-results
+__tests__
+e2e
+*.test.*
+*.spec.*
+vitest.config.ts
+playwright.config.ts

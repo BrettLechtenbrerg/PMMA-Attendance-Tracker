@@ -31,7 +31,7 @@ export default function Home() {
           PMMA Attendance Tracker
         </h1>
         <p className="text-lg text-gray-600">
-          Loading...
+          Redirecting to dashboard...
         </p>
       </div>
     </main>
