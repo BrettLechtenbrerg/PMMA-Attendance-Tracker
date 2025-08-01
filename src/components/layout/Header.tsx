@@ -33,6 +33,7 @@ export default function Header() {
     { name: 'Families', href: '/families', roles: ['owner', 'manager'] },
     { name: 'Classes', href: '/classes', roles: ['owner', 'manager', 'instructor'] },
     { name: 'Attendance', href: '/attendance', roles: ['owner', 'manager', 'instructor'] },
+    { name: 'Users', href: '/admin/users', roles: ['owner', 'manager'] },
     { name: 'Portal', href: '/portal', roles: ['parent'] },
     { name: 'Settings', href: '/settings', roles: ['owner', 'manager'] },
   ]
