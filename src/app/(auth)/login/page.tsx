@@ -1,19 +1,46 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { signIn } from '@/lib/auth'
+import { isSetupRequired } from '@/lib/setup'
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [checkingSetup, setCheckingSetup] = useState(true)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    checkSetupStatus()
+    
+    // Check for setup completion message
+    if (searchParams.get('setup') === 'complete') {
+      setSuccessMessage('Admin account created successfully! You can now sign in.')
+    }
+  }, [searchParams, router])
+
+  async function checkSetupStatus() {
+    try {
+      const setupNeeded = await isSetupRequired()
+      if (setupNeeded) {
+        router.push('/setup')
+        return
+      }
+    } catch (error) {
+      console.error('Error checking setup status:', error)
+    } finally {
+      setCheckingSetup(false)
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -28,6 +55,17 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (checkingSetup) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking system status...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -50,6 +88,12 @@ export default function LoginPage() {
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {successMessage && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+              {successMessage}
+            </div>
+          )}
+          
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
               {error}
@@ -104,5 +148,20 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }
